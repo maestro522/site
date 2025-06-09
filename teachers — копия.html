@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наш код вашей креативности</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease-out;
+            pointer-events: none;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content-wrapper {
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+        .modal-overlay.show .modal-content-wrapper {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-close-button {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6B46C1;
+            transition: color 0.2s ease;
+        }
+        .modal-close-button:hover {
+            color: #5A2DAB;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-50 via-purple-50 to-pink-50 text-gray-800 antialiased">
+    <div class="min-h-screen flex flex-col">
+        <header class="bg-gradient-to-r from-purple-50 to-pink-50 py-8 px-4 shadow-lg rounded-b-xl mx-auto w-11/12 md:w-5/6 lg:w-4/5 mt-4">
+            <div class="max-w-6xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 tracking-tight mb-2">Наш код вашей креативности</h1>
+                <div class="w-24 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto rounded-full"></div>
+            </div>
+        </header>
+
+        <div class="max-w-6xl mx-auto px-4 py-12">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+                <button class="bg-white hover:bg-purple-50 shadow-lg rounded-xl p-6 transition-all duration-300 hover:scale-105 border hover:border-purple-200" onclick="openModalWithContent('educators-content')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap mx-auto mb-2 text-purple-600 w-10 h-10">
+                        <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path>
+                        <path d="M22 10v6"></path>
+                        <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path>
+                    </svg>
+                    <span class="text-xl font-medium text-gray-700">Для педагогов</span>
+                </button>
+                <button class="bg-white hover:bg-pink-50 shadow-lg rounded-xl p-6 transition-all duration-300 hover:scale-105 border hover:border-pink-200" onclick="openModalWithContent('parents-content')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart mx-auto mb-2 text-pink-600 w-10 h-10">
+                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+                    </svg>
+                    <span class="text-xl font-medium text-gray-700">Для родителей</span>
+                </button>
+                <button class="bg-white hover:bg-blue-50 shadow-lg rounded-xl p-6 transition-all duration-300 hover:scale-105 border hover:border-blue-200" onclick="openModalWithContent('games-content')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gamepad2 mx-auto mb-2 text-blue-600 w-10 h-10">
+                        <line x1="6" x2="10" y1="11" y2="11"></line>
+                        <line x1="8" x2="8" y1="9" y2="13"></line>
+                        <line x1="15" x2="15.01" y1="12" y2="12"></line>
+                        <line x1="18" x2="18.01" y1="10" y2="10"></line>
+                        <path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"></path>
+                    </svg>
+                    <span class="text-xl font-medium text-gray-700">Игры</span>
+                </button>
+                <button class="bg-white hover:bg-green-50 shadow-lg rounded-xl p-6 transition-all duration-300 hover:scale-105 border hover:border-green-200" onclick="openModalWithContent('about-content')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info mx-auto mb-2 text-green-600 w-10 h-10">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 16v-4"></path>
+                        <path d="M12 8h.01"></path>
+                    </svg>
+                    <span class="text-xl font-medium text-gray-700">О нас</span>
+                </button>
+                <button class="bg-white hover:bg-orange-50 shadow-lg rounded-xl p-6 transition-all duration-300 hover:scale-105 border hover:border-orange-200" onclick="openModalWithContent('account-content')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user mx-auto mb-2 text-orange-600 w-10 h-10">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span class="text-xl font-medium text-gray-700">Личный кабинет</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 py-12">
+            <div class="rounded-lg border bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 border-none shadow-xl">
+                <div class="p-8">
+                    <div class="text-center">
+                        <div class="flex justify-center mb-6">
+                            <div class="bg-gradient-to-r from-purple-400 to-pink-400 p-4 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-code text-white">
+                                    <polyline points="16 18 22 12 16 6"></polyline>
+                                    <polyline points="8 6 2 12 8 18"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Описание проекта</h2>
+                        <div class="space-y-4 text-gray-600 leading-relaxed">
+                            <p class="text-lg">"Код креативности" — это инновационный проект, который объединяет лучшие практики дошкольного образования с возможностями цифровых технологий. Наша цель — помочь педагогам создать увлекательную и интерактивную среду, в которой дети смогут раскрыть свой творческий потенциал.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-content-wrapper">
+            <button class="modal-close-button" onclick="closeModal()">✕</button>
+            <div id="modal-inner-content">
+            </div>
+        </div>
+    </div>
+
+    <div id="hidden-contents" style="display: none;">
+        <section id="educators-content" class="p-4">
+            <h2 class="text-3xl font-bold mb-6 text-purple-600">Для педагогов</h2>
+            <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+                Уважаемые коллеги! В этом разделе собраны все необходимые ресурсы, которые помогут вам в преподавании программирования.
+                Мы постоянно обновляем материалы, чтобы вы всегда имели доступ к актуальным методикам и инструментам.
+            </p>
+            <div class="space-y-6">
+                <div class="border border-purple-200 rounded-lg p-6 bg-purple-50">
+                    <h3 class="font-semibold text-2xl mb-3 text-purple-700">Материалы и пособия:</h3>
+                    <ul class="list-disc list-inside text-gray-700 text-lg space-y-2">
+                        <li><a href="https://docs.google.com/document/d/1SpwkmBQn6TR1ARRSNoPB45euPjxv5vqd/edit?usp=sharing&ouid=101787830896194387583&rtpof=true&sd=true" class="hover:text-purple-800" target="_blank">Рекомендованные цифровые продукты</a></li>
+                        <li><a href="https://docs.google.com/document/d/1gH0t0TJMcsQUlkhvqFR6eiAV8XCu-Zq9/edit?usp=drive_link&ouid=101787830896194387583&rtpof=true&sd=true" class="hover:text-purple-800" target="_blank">Приложения к проекту</a></li>
+                    </ul>
+                </div>
+                <div class="border border-purple-200 rounded-lg p-6 bg-purple-50">
+                    <h3 class="font-semibold text-2xl mb-3 text-purple-700">Вебинары и тренинги:</h3>
+                    <ul class="list-disc list-inside text-gray-700 text-lg space-y-2">
+                        <li><span>Запись вебинара: "Интерактивные методы обучения программированию"</span></li>
+                        <li><span>Анонс тренинга: "Игровые подходы в обучении алгоритмике" (20 июля 2025 г.)</span></li>
+                        <li><span>График предстоящих онлайн-семинаров</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="parents-content" class="p-4">
+            <div class="rounded-lg border bg-gradient-to-br from-pink-50 to-pink-100 border-none shadow-xl mx-auto max-w-4xl">
+                <div class="p-8">
+                    <div class="text-center">
+                        <div class="flex justify-center mb-6">
+                            <div class="bg-gradient-to-r from-pink-400 to-pink-500 p-4 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart text-white">
+                                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Для родителей</h2>
+                        <p class="text-sm text-pink-600 mb-8">Забота, поддержка, рекомендации</p>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="text-center py-12">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users mx-auto text-pink-400 mb-4">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <p class="text-pink-600 text-lg">Раздел в разработке</p>
+                            <p class="text-pink-500 text-sm mt-2">Скоро здесь появятся полезные материалы для родителей</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="games-content" class="p-4">
+            <div class="rounded-lg border bg-gradient-to-br from-blue-50 to-blue-100 border-none shadow-xl mx-auto max-w-4xl">
+                <div class="p-8">
+                    <div class="text-center">
+                        <div class="flex justify-center mb-6">
+                            <div class="bg-gradient-to-r from-blue-400 to-blue-500 p-4 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-puzzle text-white">
+                                    <path d="M15.39 4.39a1 1 0 0 0 1.68-.474 2.5 2.5 0 1 1 3.014 3.015 1 1 0 0 0-.474 1.68l1.683 1.682a2.414 2.414 0 0 1 0 3.414L19.61 15.39a1 1 0 0 1-1.68-.474 2.5 2.5 0 1 0-3.014 3.015 1 1 0 0 1 .474 1.68l-1.683 1.682a2.414 2.414 0 0 1-3.414 0L8.61 19.61a1 1 0 0 0-1.68.474 2.5 2.5 0 1 1-3.014-3.015 1 1 0 0 1 .474-1.68L2.6 12.83a2.414 2.414 0 0 1 0-3.414L4.39 7.39a1 1 0 0 0-.474-1.68 2.5 2.5 0 1 1 3.015-3.014 1 1 0 0 0 1.68.474L11.17 2.6a2.414 2.414 0 0 1 3.414 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Игры</h2>
+                        <p class="text-sm text-blue-600 mb-8">Интерактивное обучение через развлечения</p>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="text-center py-12">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-puzzle mx-auto text-blue-400 mb-4">
+                                <path d="M15.39 4.39a1 1 0 0 0 1.68-.474 2.5 2.5 0 1 1 3.014 3.015 1 1 0 0 0-.474 1.68l1.683 1.682a2.414 2.414 0 0 1 0 3.414L19.61 15.39a1 1 0 0 1-1.68-.474 2.5 2.5 0 1 0-3.014 3.015 1 1 0 0 1 .474 1.68l-1.683 1.682a2.414 2.414 0 0 1-3.414 0L8.61 19.61a1 1 0 0 0-1.68.474 2.5 2.5 0 1 1-3.014-3.015 1 1 0 0 1 .474-1.68L2.6 12.83a2.414 2.414 0 0 1 0-3.414L4.39 7.39a1 1 0 0 0-.474-1.68 2.5 2.5 0 1 1 3.015-3.014 1 1 0 0 0 1.68.474L11.17 2.6a2.414 2.414 0 0 1 3.414 0z"></path>
+                            </svg>
+                            <p class="text-blue-600 text-lg">Раздел в разработке</p>
+                            <p class="text-blue-500 text-sm mt-2">Скоро здесь появятся захватывающие игры</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-content" class="p-4">
+            <div class="rounded-lg border bg-gradient-to-br from-green-50 to-green-100 border-none shadow-xl mx-auto max-w-4xl">
+                <div class="p-8">
+                    <div class="text-center">
+                        <div class="flex justify-center mb-6">
+                            <div class="bg-gradient-to-r from-green-400 to-green-500 p-4 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb text-white">
+                                    <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path>
+                                    <path d="M9 18h6"></path>
+                                    <path d="M10 22h4"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">О нашем проекте</h2>
+                        <p class="text-sm text-green-600 mb-8">Узнайте больше о нашей миссии и команде</p>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="text-center py-12">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb mx-auto text-green-400 mb-4">
+                                <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path>
+                                <path d="M9 18h6"></path>
+                                <path d="M10 22h4"></path>
+                            </svg>
+                            <p class="text-green-600 text-lg">Описание проекта</p>
+                            <p class="text-green-500 text-sm mt-2">Подробная информация о проекте будет добавлена</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="account-content" class="p-4">
+            <div class="rounded-lg border bg-gradient-to-br from-orange-50 to-orange-100 border-none shadow-xl mx-auto max-w-4xl">
+                <div class="p-8">
+                    <div class="text-center">
+                        <div class="flex justify-center mb-6">
+                            <div class="bg-gradient-to-r from-orange-400 to-orange-500 p-4 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user text-white">
+                                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </div>
+                        </div>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-4">Личный кабинет</h2>
+                        <p class="text-sm text-orange-600 mb-8">Вход и регистрация</p>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="max-w-lg mx-auto rounded-lg bg-white p-6 shadow-sm">
+                            <h3 class="text-xl font-semibold text-gray-800 text-center mb-6">Вход / Регистрация</h3>
+                            <form class="space-y-6">
+                                <div>
+                                    <label for="reg-username" class="block text-gray-700 text-base font-semibold mb-2">Имя пользователя:</label>
+                                    <input type="text" id="reg-username" name="username" class="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition duration-200" placeholder="Введите ваше имя пользователя">
+                                </div>
+                                <div>
+                                    <label for="reg-password" class="block text-gray-700 text-base font-semibold mb-2">Пароль:</label>
+                                    <input type="password" id="reg-password" name="password" class="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition duration-200" placeholder="Введите ваш пароль">
+                                </div>
+                                <div>
+                                    <label for="confirm-password" class="block text-gray-700 text-base font-semibold mb-2">Подтвердите пароль:</label>
+                                    <input type="password" id="confirm-password" name="confirm-password" class="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-orange-300 focus:border-transparent transition duration-200" placeholder="Повторите ваш пароль">
+                                </div>
+                                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+                                    <button type="button" class="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 shadow-md hover:shadow-lg transition duration-300 ease-in-out">
+                                        Войти
+                                    </button>
+                                    <button type="button" class="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 shadow-md hover:shadow-lg transition duration-300 ease-in-out">
+                                        Зарегистрироваться
+                                    </button>
+                                </div>
+                            </form>
+                            <p class="text-center text-gray-500 text-sm mt-6">
+                                Эта форма является демонстрационной. Фактическая регистрация или вход не производятся.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let currentModalContentElement = null;
+        let currentModalContentOriginalParent = null;
+
+        function openModalWithContent(contentId) {
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalInnerContent = document.getElementById('modal-inner-content');
+            const contentElement = document.getElementById(contentId);
+
+            if (contentElement) {
+                if (currentModalContentElement && currentModalContentOriginalParent) {
+                    currentModalContentOriginalParent.appendChild(currentModalContentElement);
+                }
+
+                modalInnerContent.innerHTML = '';
+
+                currentModalContentOriginalParent = contentElement.parentNode;
+                modalInnerContent.appendChild(contentElement);
+                currentModalContentElement = contentElement;
+
+                modalOverlay.classList.add('show');
+            } else {
+                console.error('Content with ID ' + contentId + ' not found.');
+            }
+        }
+
+        function closeModal() {
+            const modalOverlay = document.getElementById('modal-overlay');
+            modalOverlay.classList.remove('show');
+
+            if (currentModalContentElement && currentModalContentOriginalParent) {
+                setTimeout(() => {
+                    currentModalContentOriginalParent.appendChild(currentModalContentElement);
+                    currentModalContentElement = null;
+                    currentModalContentOriginalParent = null;
+                    document.getElementById('modal-inner-content').innerHTML = '';
+                }, 300);
+            }
+        }
+
+        document.getElementById('modal-overlay').addEventListener('click', function(event) {
+            if (event.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
